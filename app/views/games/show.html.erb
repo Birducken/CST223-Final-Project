@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center align-items-center flex-column text-center min-vh-100 bg-primary">
+  <div class="row w-50">
+    <% for x in 1..5 %>
+      <div class="col m-2">
+        <%= inline_svg_tag "6S.svg", size: "100% * 100%"%>
+        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-75">Buy</button>
+      </div>
+    <% end %>
+  </div>
+  <div class="row w-50">
+    <% for x in 1..5 %>
+      <div class="col m-2">
+        <%= inline_svg_tag "6S.svg", size: "100% * 100%"%>
+        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-75">Buy</button>
+      </div>
+    <% end %>
+  </div>
+  <div class="row w-50">
+    <% for x in 1..5 %>
+      <div class="col m-2">
+        <%= inline_svg_tag "6S.svg", size: "100% * 100%"%>
+        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-75">Spend</button>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= javascript_include_tag "game_play.js", "data-turbo-track": "reload" %>

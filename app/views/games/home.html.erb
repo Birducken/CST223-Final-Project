@@ -1,0 +1,10 @@
+<div class="d-flex justify-content-center align-items-center flex-column min-vh-100 bg-primary">
+    <div id="grid" class="text-center" style="transition: width 0.5s">
+      <%= inline_svg_tag "logo.svg", size: "100% * 100%"%>
+      <form action="<%= games_path() %>" method="post">
+        <input type="hidden" name="authenticity_token" value= <%= form_authenticity_token %>>
+        <button type="submit" role="button" class="btn btn-secondary btn-lg text-primary w-75 m-4">Play!</button>
+      </form>
+    </div>
+</div>
+<%= javascript_include_tag "game_home.js", "data-turbo-track": "reload" %>
