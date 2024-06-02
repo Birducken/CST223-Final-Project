@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_29_072157) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_01_021654) do
   create_table "games", id: :string, force: :cascade do |t|
     t.string "assets"
     t.string "public_sales"
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_072157) do
     t.string "discard"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "game_state"
   end
 
 end

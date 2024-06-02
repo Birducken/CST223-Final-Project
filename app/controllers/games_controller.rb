@@ -3,11 +3,14 @@ class GamesController < ApplicationController
   end
 
   def show
+    @game = Games.find(params[:id])
   end
 
   def create
     @game = Games.new
-    logger.info @game.save
+    @game.setup
+    @game.save
+    
     redirect_to @game
   end
 end
