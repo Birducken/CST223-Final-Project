@@ -26,5 +26,18 @@ class Row < CardContainer
   def full?
     @cards.none?(nil)
   end
+
+  def take_at(i)
+    card = @cards[i]
+    @cards[i] = nil
+    return card
+  end
+
+  def compact
+    @cards.compact
+    while size < limit
+      push nil
+    end
+  end
 end
 end

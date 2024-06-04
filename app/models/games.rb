@@ -25,7 +25,54 @@ class Games < ApplicationRecord
     refill_assets
   end
 
-  private 
+  def valid_transaction?(bought_index, sold_indeces)
+    sold = sold_indeces.map { |i| self.assets[i] }
+    bought = market_card(bought_index)
+
+    return valid_purchase?(bought, sold) || valid_swap?(bought, sold)
+  end
+
+  def perform_transaction(bought_index, sold_indeces)
+    sold_indeces.each do |i|
+      self.discard.place(self.assets.take_at(i))
+    end
+
+    if bought_index <= 4
+      card = self.public_sales.take_at(bought_index)
+    else
+      card = self.private_sales.take_at(bought_index - 5)
+    end
+    
+    if card.face?
+      self.vault.place(card)
+    else
+      self.assets.replenish(card)
+    end
+  end
+
+  private
+
+  def valid_purchase?(bought, sold)
+    suit = sold.first.suit
+    if !sold.all? { |card| card.suit == suit } || bought.suit != suit
+      return false
+    end
+
+    sum = sold.sum { |card| value_sold(card) }
+    if sum < bought.value
+      return false
+    end
+    
+    return true
+  end
+
+  def valid_swap?(bought, sold)
+    if sold.size != 1
+      return false
+    end
+
+    return bought.value == sold[0].value
+  end
 
   def refill_assets
     while self.assets.empty_slots? && !self.deck.empty?
@@ -48,8 +95,24 @@ class Games < ApplicationRecord
     end
   end
 
+  def market_card(i)
+    if i <= 4
+      card = self.public_sales[i]
+    else
+      card = self.private_sales[i - 5]
+    end
+    return card
+  end
+
+  def sold_value(card)
+    if card.value == 1
+      return 11
+    end
+
+    return card.value
+  end
+
   def generate_id
-    logger.info self.id
     loop do
       self.id = SecureRandom.alphanumeric(6).downcase
       break if not Games.where(id: self.id).exists?

@@ -33,6 +33,42 @@ module GameHelper
     end
 
     svg += ".svg"
-    svg
+    return svg
+  end
+
+  def card_png(card)
+    if card.nil?
+      return "blank_white.png"
+    end
+    
+    png = String.new
+    case card.value
+    when 2..10
+      png += card.value.to_s
+    when 1
+      png += "ace"
+    when 11
+      png += "jack"
+    when 12
+      png += "queen"
+    when 13
+      png += "king"
+    end
+    
+    png += "_"
+
+    case card.suit
+    when :clubs
+      png += "clubs"
+    when :diamonds
+      png += "diamonds"
+    when :hearts
+      png += "hearts"
+    when :spades
+      png += "spades"
+    end
+
+    png += "_white.png"
+    return png
   end
 end
