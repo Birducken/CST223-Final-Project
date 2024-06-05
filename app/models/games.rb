@@ -58,7 +58,7 @@ class Games < ApplicationRecord
       return false
     end
 
-    sum = sold.sum { |card| value_sold(card) }
+    sum = sold.sum { |card| sold_value(card) }
     if sum < bought.value
       return false
     end
