@@ -23,7 +23,6 @@ module Final
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
     config.after_initialize do
       config.active_record.yaml_column_permitted_classes = [CardGame::Card, CardGame::Deck, CardGame::Row, Symbol]
     end

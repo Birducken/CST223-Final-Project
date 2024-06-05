@@ -1,4 +1,4 @@
-module GameHelper
+module GamesHelper
   def card_svg(card)
     if card.nil?
       return "blank.svg"
