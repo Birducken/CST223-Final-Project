@@ -41,6 +41,7 @@ class Games < ApplicationRecord
       card = self.public_sales.take_at(bought_index)
     else
       card = self.private_sales.take_at(bought_index - 5)
+      self.private_sales.compact
     end
     
     if card.face?
@@ -48,6 +49,9 @@ class Games < ApplicationRecord
     else
       self.assets.replenish(card)
     end
+
+    refill_public_sales
+    refill_assets
   end
 
   private

@@ -34,9 +34,9 @@ class Row < CardContainer
   end
 
   def compact
-    @cards.compact
-    while size < limit
-      push nil
+    @cards = @cards.compact
+    while @cards.size < limit
+      @cards.push nil
     end
   end
 end

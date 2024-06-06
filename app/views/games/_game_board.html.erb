@@ -3,8 +3,7 @@
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.private_sales[i]), class: "m-1", width: 180, style: "image-rendering: pixelated" %>
-        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-50" onclick=<%="handleClickBought(#{i+5})"%>>Buy</button>
+        <%= image_tag card_png(@game.private_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.private_sales[i] == nil ? -1 : i + 5 } %>
       </div>
     <% end %>
   </div>
@@ -12,8 +11,7 @@
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.public_sales[i]), width: 180, class: "m-1", style: "image-rendering: pixelated" %>
-        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-50" onclick=<%="handleClickBought(#{i})"%>>Buy</button>
+        <%= image_tag card_png(@game.public_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: i } %>
       </div>
     <% end %>
   </div>
@@ -21,9 +19,9 @@
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.assets[i]), width: 180, class: "m-1", style: "image-rendering: pixelated" %>
-        <button role="button" class="btn btn-secondary btn-lg text-primary m-1 w-50" onclick=<%="handleClickSold(#{i})"%>>Spend</button>
+        <%= image_tag card_png(@game.assets[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "sell-button",  data: { index: i } %>
       </div>
     <% end %>
   </div>
+  <%= button_to "Confirm", game_path(@game), method: :patch, id: "confirm-button", class: "btn btn-secondary btn-lg text-primary w-100", disabled: true, form: { id: "confirm-form" } %>
 </div>

@@ -70,5 +70,3 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
-gem "yaml", "~> 0.3.0"

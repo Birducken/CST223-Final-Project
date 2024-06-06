@@ -13,4 +13,23 @@ class GamesController < ApplicationController
     
     redirect_to @game
   end
+
+  def update
+    @game = Games.find(params[:id])
+    convert_params
+  
+    if @game.valid_transaction? params[:bought], params[:sold]
+      @game.perform_transaction params[:bought], params[:sold]
+      @game.save
+    end
+
+    redirect_to @game
+  end
+
+  private
+  
+  def convert_params
+    params[:bought] = params[:bought].to_i
+    params[:sold] = params[:sold].map { |index| index.to_i }
+  end
 end
