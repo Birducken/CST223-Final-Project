@@ -41,7 +41,6 @@ class Games < ApplicationRecord
       card = self.public_sales.take_at(bought_index)
     else
       card = self.private_sales.take_at(bought_index - 5)
-      self.private_sales.compact
     end
     
     if card.face?
@@ -50,8 +49,7 @@ class Games < ApplicationRecord
       self.assets.replenish(card)
     end
 
-    refill_public_sales
-    refill_assets
+    cleanup
   end
 
   private
@@ -114,6 +112,12 @@ class Games < ApplicationRecord
     end
 
     return card.value
+  end
+
+  def cleanup
+    self.private_sales.compact
+    refill_public_sales
+    refill_assets
   end
 
   def generate_id
