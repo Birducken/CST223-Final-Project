@@ -54,7 +54,19 @@ class Games < ApplicationRecord
 
   private
 
+  def any_valid_transactions?()
+    assets.each do |card|
+      private_sales.each do |card|
+        self.valid_swap
+      end
+    end
+
+  end
+
   def valid_purchase?(bought, sold)
+    if bought==nil
+      return false
+    end
     suit = sold.first.suit
     if !sold.all? { |card| card.suit == suit } || bought.suit != suit
       return false
@@ -72,7 +84,9 @@ class Games < ApplicationRecord
     if sold.size != 1
       return false
     end
-
+    if bought==nil
+      return false
+    end
     return bought.value == sold[0].value
   end
 
