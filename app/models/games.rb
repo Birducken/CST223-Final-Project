@@ -64,9 +64,10 @@ class Games < ApplicationRecord
   end
 
   def valid_purchase?(bought, sold)
-    if bought==nil
+    if bought == nil
       return false
     end
+    
     suit = sold.first.suit
     if !sold.all? { |card| card.suit == suit } || bought.suit != suit
       return false
@@ -81,12 +82,10 @@ class Games < ApplicationRecord
   end
 
   def valid_swap?(bought, sold)
-    if sold.size != 1
+    if sold.size != 1 || bought == nil
       return false
     end
-    if bought==nil
-      return false
-    end
+
     return bought.value == sold[0].value
   end
 
