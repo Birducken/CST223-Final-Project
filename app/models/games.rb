@@ -41,7 +41,6 @@ class Games < ApplicationRecord
       card = self.public_sales.take_at(bought_index)
     else
       card = self.private_sales.take_at(bought_index - 5)
-      self.private_sales.compact
     end
     
     if card.face?
@@ -50,8 +49,7 @@ class Games < ApplicationRecord
       self.assets.replenish(card)
     end
 
-    refill_public_sales
-    refill_assets
+    cleanup
   end
 
   private
@@ -100,9 +98,10 @@ class Games < ApplicationRecord
   end
 
   def valid_purchase?(bought, sold)
-    if bought==nil
+    if bought == nil
       return false
     end
+    
     suit = sold.first.suit
     if !sold.all? { |card| card.suit == suit } || bought.suit != suit
       return false
@@ -117,12 +116,10 @@ class Games < ApplicationRecord
   end
 
   def valid_swap?(bought, sold)
-    if sold.size != 1
+    if sold.size != 1 || bought == nil
       return false
     end
-    if bought==nil
-      return false
-    end
+
     return bought.value == sold[0].value
   end
 
@@ -162,6 +159,12 @@ class Games < ApplicationRecord
     end
 
     return card.value
+  end
+
+  def cleanup
+    self.private_sales.compact
+    refill_public_sales
+    refill_assets
   end
 
   def generate_id

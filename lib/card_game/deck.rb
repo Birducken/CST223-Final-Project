@@ -29,6 +29,10 @@ class Deck < CardContainer
     @cards.empty?
   end
 
+  def size
+    @cards.size
+  end
+
   private
 
   def construct_empty
