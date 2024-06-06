@@ -57,12 +57,46 @@ class Games < ApplicationRecord
   private
 
   def any_valid_transactions?()
-    assets.each do |card|
-      private_sales.each do |card|
-        self.valid_swap
+    assets.each do |sold|
+      private_sales.each do |bought|
+        if valid_swap(bought,sold)
+          return true
+        end
+      end
+      public_sales.each do |bought|
+        if valid_swap(bought,sold)
+          return true
+        end
       end
     end
-
+    assets_club = Array.new
+    assets_hearts = Array.new
+    assets_diamonds = Array.new
+    assets_spades = Array.new
+    assets.each do |sold|
+      c=0
+      d=0
+      s=0
+      h=0
+      if card.suit==:clubs
+        self.assets_club[c] = self.card
+        c++
+      end
+      if card.suit==:diamonds
+        self.assets_diamonds[d] = self.card
+        d++
+      end
+      if card.suit==:spades
+        self.assets_spades[s] = self.card
+        s++
+      end
+      if card.suit==:hearts
+        self.assets_hearts[h] = self.card
+        h++
+      end
+    end
+    return valid_purchase(private_sales,assets_club)||valid_purchase(private_sales,assets_diamonds)||valid_purchase(private_sales,assets_hearts)||valid_purchase(private_sales,assets_spades)||valid_purchase(public_sales,assets_club)||valid_purchase(public_sales,assets_diamonds)||valid_purchase(public_sales,assets_hearts)||valid_purchase(public_sales,assets_spades)
+    
   end
 
   def valid_purchase?(bought, sold)
