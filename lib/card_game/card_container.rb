@@ -15,5 +15,9 @@ class CardContainer
   def bottom
     @cards.first
   end
+
+  def each(lambda)
+    @cards.each(lambda)
+  end
 end
 end
