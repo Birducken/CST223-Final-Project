@@ -1,0 +1,37 @@
+<div class="container-xl text-center">
+  <div class ="row mb-1">
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Deck: #{@game.deck.size} cards" %></p>
+    </div>
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Discard: #{@game.discard.size} cards" %></p>
+    </div>
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Vault: #{@game.vault.size} portraits" %></p>
+    </div>
+  </div>
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Private Sales</p>
+  <div class="row mb-4">
+    <% for i in 0..4 %>
+      <div class="col">
+        <%= image_tag card_png(@game.private_sales[i]), class: "border-3 border-secondary p-1", width: 190, style: "image-rendering: pixelated" %>
+      </div>
+    <% end %>
+  </div>
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Public Sales</p>
+  <div class="row mb-4">
+    <% for i in 0..4 %>
+      <div class="col">
+        <%= image_tag card_png(@game.public_sales[i]), class: "border-3 border-secondary p-1", width: 190, style: "image-rendering: pixelated" %>
+      </div>
+    <% end %>
+  </div>
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Assets</p>
+  <div class="row mb-4">
+    <% for i in 0..4 %>
+      <div class="col">
+        <%= image_tag card_png(@game.assets[i]), class: "border-3 border-secondary p-1", width: 190, style: "image-rendering: pixelated" %>
+      </div>
+    <% end %>
+  </div>
+</div>

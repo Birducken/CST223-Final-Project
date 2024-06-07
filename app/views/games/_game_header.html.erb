@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row m-3">
+    <div class="col text-start">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4"><%= "Game ID: #{@game.id}" %></p>
+    </div>
+    <div class="col text-center">
+      <p class="text-secondary fs-2 fw-bold"><%= @message %></p>
+    </div>
+    <div class="col text-end">
+      <%= button_to "Forfeit", game_path(@game), method: :delete, class: "btn btn-secondary btn-lg text-primary" %>
+    </div>
+  </div>
+</div>

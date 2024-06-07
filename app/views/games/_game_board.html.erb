@@ -1,38 +1,40 @@
-<div class="container-xl position-absolute top-50 start-50 translate-middle text-center">
-  <div class ="row mb-4 fs-3">
-    <div class="col">
-      <p class="badge text-primary text-bg-secondary"><%= "Deck: #{@game.deck.size} cards" %></p>
-    </div>
-    <div class="col">
-      <p class="badge text-primary text-bg-secondary"><%= "Discard: #{@game.discard.size} cards" %></p>
-    </div>
-    <div class="col">
-      <p class="badge text-primary text-bg-secondary"><%= "Vault: #{@game.vault.size} portraits" %></p>
-    </div>
-  </div>
-  <p class="fs-3 text-secondary text-decoration-underline lh-1">Private Sales</p>
+<div class="container-xl text-center">
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Private Sales</p>
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.private_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.private_sales[i] == nil ? -1 : i + 5 } %>
+        <%= image_tag card_png(@game.private_sales[i]), class: "border-3 border-secondary p-1", width: 190, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.private_sales[i] == nil ? -1 : i + 5 } %>
       </div>
     <% end %>
   </div>
-  <p class="fs-3 text-secondary text-decoration-underline lh-1">Public Sales</p>
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Public Sales</p>
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.public_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.public_sales[i] == nil ? -1 : i } %>
+        <%= image_tag card_png(@game.public_sales[i]), class: "border-3 border-secondary p-1", width: 190, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.public_sales[i] == nil ? -1 : i } %>
       </div>
     <% end %>
   </div>
-  <p class="fs-3 text-secondary text-decoration-underline lh-1">Assets</p>
+  <div class ="row mb-1">
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Deck: #{@game.deck.size} cards" %></p>
+    </div>
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Discard: #{@game.discard.size} cards" %></p>
+    </div>
+    <div class="col">
+      <p class="badge text-primary text-bg-secondary rounded-pill fs-4 mb-1"><%= "Vault: #{@game.vault.size} portraits" %></p>
+    </div>
+  </div>
+  <p class="text-secondary fs-3 text-decoration-underline mb-1">Assets</p>
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.assets[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "sell-button",  data: { index: @game.assets[i] == nil ? -1 : i } %>
+        <%= image_tag card_png(@game.assets[i]), class: "border-3 border-secondary p-1", width: 230, style: "image-rendering: pixelated", name: "sell-button",  data: { index: @game.assets[i] == nil ? -1 : i } %>
       </div>
     <% end %>
   </div>
-  <%= button_to "Confirm", game_path(@game), method: :patch, id: "confirm-button", class: "btn btn-secondary btn-lg text-primary w-100", disabled: true, form: { id: "confirm-form" } %>
+  <div class="row mb-4">
+    <%= button_to "Confirm", game_path(@game), method: :patch, id: "confirm-button", class: "btn btn-secondary btn-lg text-primary w-75", disabled: true, form: { id: "confirm-form" } %>
+  </div>
 </div>

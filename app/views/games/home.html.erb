@@ -1,4 +1,11 @@
-<div class="container-xl position-absolute top-50 start-50 translate-middle text-center">
-  <%= inline_svg_tag "logo.svg", size: "95%" %>
-  <%= button_to "Play!", games_path, method: :post, class: "btn btn-secondary btn-lg text-primary w-75 m-4" %>
+<div class="container-xl d-flex flex-column align-items-center">
+  <%= inline_svg_tag "logo.svg", size: "95%", class: "mb-4" %>
+  <%= button_to "New Game", games_path, method: :post, class: "btn btn-secondary btn-lg text-primary mb-4", style: "width: 600px" %>
+  <span class="text-secondary fs-4 fst-italic mb-4">or</span>
+  <%= form_with url: "/games", method: :get do |form| %>
+    <div class="input-group" style="width: 600px">
+      <span class="input-group-text text-primary text-bg-secondary">Game ID</span>
+      <%= form.text_field :id, class: "form-control bg-light" %>
+      <%= form.submit "Continue Game", class: "btn btn-secondary btn-lg text-primary btn-outline-secondary" %>
+  <% end %>
 </div>

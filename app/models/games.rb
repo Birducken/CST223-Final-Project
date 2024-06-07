@@ -26,6 +26,10 @@ class Games < ApplicationRecord
   end
 
   def valid_transaction?(bought_index, sold_indeces)
+    if bought_index == nil || sold_indeces == nil
+      return false
+    end
+
     sold = sold_indeces.map { |i| self.assets[i] }
     bought = market_card(bought_index)
 
