@@ -13,7 +13,10 @@ for (const button of document.getElementsByName("buy-button")) {
 
 function handleClickSold(event) {
   let i = Number(event.target.attributes["data-index"].value);
-  
+  if (i == -1) {
+    return
+  }
+
   if(sold.includes(i)) {
     sold.splice(sold.indexOf(i), 1);
     event.target.classList.remove("border");

@@ -55,9 +55,17 @@ class Games < ApplicationRecord
 
   private
 
+  def cleanup
+    self.private_sales.compact
+    refill_public_sales
+    refill_assets
+  end
+
   def update_gamestate
-    if !any_valid_transactions? || self.private_sales.overflow?
-      self.game_state = :lost
+    if !any_valid_transactions?
+      self.game_state = :lost_frozen
+    elsif self.private_sales.overflow?
+      self.game_state = :lost_overflow
     elsif self.vault.size == 12
       self.game_state = :won
     else
@@ -66,7 +74,6 @@ class Games < ApplicationRecord
   end
 
   def any_valid_transactions?
-    logger.debug self.assets
     self.assets.each do |card|
       sold = Array.new
       sold.push(card)
@@ -90,6 +97,10 @@ class Games < ApplicationRecord
     assets[:spades] = Array.new
 
     self.assets.each do |card|
+      if card == nil
+        return
+      end
+      
       assets[card.suit].push(card)
     end
     
@@ -110,7 +121,7 @@ class Games < ApplicationRecord
   end
 
   def valid_purchase?(bought, sold)
-    if bought == nil || sold.empty?
+    if bought == nil || sold.empty? || sold.any?(nil)
       return false
     end
 
@@ -128,7 +139,7 @@ class Games < ApplicationRecord
   end
 
   def valid_swap?(bought, sold)
-    if sold.size != 1 || bought == nil
+    if bought == nil  || sold.size != 1 || sold.any?(nil)
       return false
     end
 
@@ -169,12 +180,6 @@ class Games < ApplicationRecord
     end
 
     return card.value
-  end
-
-  def cleanup
-    self.private_sales.compact
-    refill_public_sales
-    refill_assets
   end
 
   def generate_id

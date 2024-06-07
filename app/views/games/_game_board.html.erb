@@ -22,7 +22,7 @@
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.public_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: i } %>
+        <%= image_tag card_png(@game.public_sales[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "buy-button",  data: { index: @game.public_sales[i] == nil ? -1 : i } %>
       </div>
     <% end %>
   </div>
@@ -30,7 +30,7 @@
   <div class="row mb-4">
     <% for i in 0..4 %>
       <div class="col">
-        <%= image_tag card_png(@game.assets[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "sell-button",  data: { index: i } %>
+        <%= image_tag card_png(@game.assets[i]), class: "m-1 border-5 border-secondary", width: 180, style: "image-rendering: pixelated", name: "sell-button",  data: { index: @game.assets[i] == nil ? -1 : i } %>
       </div>
     <% end %>
   </div>
