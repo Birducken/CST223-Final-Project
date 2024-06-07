@@ -16,8 +16,8 @@ class CardContainer
     @cards.first
   end
 
-  def each(lambda)
-    @cards.each(lambda)
+  def each(&lambda)
+    @cards.each(&lambda)
   end
 end
 end

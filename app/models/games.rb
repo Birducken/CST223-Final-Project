@@ -50,58 +50,70 @@ class Games < ApplicationRecord
     end
 
     cleanup
+    update_gamestate
   end
 
   private
 
-  def any_valid_transactions?()
-    assets.each do |sold|
-      private_sales.each do |bought|
-        if valid_swap(bought,sold)
+  def update_gamestate
+    if !any_valid_transactions? || self.private_sales.overflow?
+      self.game_state = :lost
+    elsif self.vault.size == 12
+      self.game_state = :won
+    else
+      self.game_state = :in_progress
+    end
+  end
+
+  def any_valid_transactions?
+    logger.debug self.assets
+    self.assets.each do |card|
+      sold = Array.new
+      sold.push(card)
+
+      self.private_sales.each do |bought|
+        if valid_swap?(bought, sold)
           return true
         end
       end
-      public_sales.each do |bought|
-        if valid_swap(bought,sold)
+      self.public_sales.each do |bought|
+        if valid_swap?(bought, sold)
           return true
         end
       end
     end
-    assets_club = Array.new
-    assets_hearts = Array.new
-    assets_diamonds = Array.new
-    assets_spades = Array.new
-    assets.each do |sold|
-      c=0
-      d=0
-      s=0
-      h=0
-      if card.suit==:clubs
-        self.assets_club[c] = self.card
-        c++
-      end
-      if card.suit==:diamonds
-        self.assets_diamonds[d] = self.card
-        d++
-      end
-      if card.suit==:spades
-        self.assets_spades[s] = self.card
-        s++
-      end
-      if card.suit==:hearts
-        self.assets_hearts[h] = self.card
-        h++
-      end
+
+    assets = Hash.new
+    assets[:clubs] = Array.new
+    assets[:diamonds] = Array.new
+    assets[:hearts] = Array.new
+    assets[:spades] = Array.new
+
+    self.assets.each do |card|
+      assets[card.suit].push(card)
     end
-    return valid_purchase(private_sales,assets_club)||valid_purchase(private_sales,assets_diamonds)||valid_purchase(private_sales,assets_hearts)||valid_purchase(private_sales,assets_spades)||valid_purchase(public_sales,assets_club)||valid_purchase(public_sales,assets_diamonds)||valid_purchase(public_sales,assets_hearts)||valid_purchase(public_sales,assets_spades)
     
+    assets.each do |suit, sold|
+      self.private_sales.each do |bought|
+        if valid_purchase?(bought, sold)
+          return true
+        end
+      end
+      self.public_sales.each do |bought|
+        if valid_purchase?(bought, sold)
+          return true
+        end
+      end
+    end
+
+    return false
   end
 
   def valid_purchase?(bought, sold)
-    if bought == nil
+    if bought == nil || sold.empty?
       return false
     end
-    
+
     suit = sold.first.suit
     if !sold.all? { |card| card.suit == suit } || bought.suit != suit
       return false
@@ -120,7 +132,7 @@ class Games < ApplicationRecord
       return false
     end
 
-    return bought.value == sold[0].value
+    return bought.value == sold.first.value
   end
 
   def refill_assets
@@ -128,8 +140,6 @@ class Games < ApplicationRecord
       card = deck.draw
       if !card.face?
         self.assets.replenish(card)
-      elsif self.private_sales.full?
-        self.game_state = :lost
       else 
         self.private_sales.replenish(card)
       end

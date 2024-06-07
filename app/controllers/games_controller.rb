@@ -4,6 +4,7 @@ class GamesController < ApplicationController
 
   def show
     @game = Games.find(params[:id])
+    logger.debug @game.game_state
   end
 
   def create

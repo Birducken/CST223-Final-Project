@@ -5,10 +5,19 @@ class Row < CardContainer
   def initialize(limit = 0)
     @limit = limit
     @cards = Array.new(limit)
+    @overflow = Array.new;
   end
 
   def replenish(card)
-    @cards[@cards.index(nil)] = card
+    if empty_slots?
+      @cards[@cards.index(nil)] = card
+    else
+      @overflow.push(card);
+    end
+  end
+
+  def overflow?
+    !@overflow.empty?
   end
 
   def empty_slots?
