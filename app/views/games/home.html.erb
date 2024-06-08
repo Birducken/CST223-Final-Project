@@ -1,5 +1,5 @@
 <div class="container-xl d-flex flex-column align-items-center">
-  <%= inline_svg_tag "logo.svg", size: "95%", class: "mb-4" %>
+  <%= image_tag "logo.png", width: "100%", class: "my-4", style: "image-rendering: pixelated" %>
   <%= button_to "New Game", games_path, method: :post, class: "btn btn-secondary btn-lg text-primary mb-4", style: "width: 600px" %>
   <span class="text-secondary fs-4 fst-italic mb-4">or</span>
   <%= form_with url: "/games", method: :get do |form| %>

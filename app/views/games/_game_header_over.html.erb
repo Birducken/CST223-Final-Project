@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row m-3">
     <div class="col text-start">
-      <p class="badge text-primary text-bg-secondary rounded-pill fs-4"><%= "Game ID: #{@game.id}" %></p>
+      <span class="badge text-primary text-bg-secondary rounded-pill fs-4"><%= "Game ID: #{@game.id}" %></span>
     </div>
     <div class="col text-center">
-      <p class="text-secondary fs-2 fw-bold"><%= @message %></p>
+      <span class="text-secondary fs-2 fw-bold"><%= @message %></span>
     </div>
     <div class="col text-end">
       <%= button_to "New Game", games_path, method: :post, class: "btn btn-secondary btn-lg text-primary" %>
